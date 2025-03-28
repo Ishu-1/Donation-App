@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "ngo",
   "version": "0.1.0",
   "type": "module",
   "private": true,
@@ -11,18 +11,12 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@repo/ui": "*",
+    "@repo/db":"*",
     "next": "^15.2.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
-    "@types/node": "^22.13.10",
-    "@types/react": "19.0.10",
-    "@types/react-dom": "19.0.4",
-    "eslint": "^9.23.0",
-    "typescript": "5.8.2"
+    
   }
 }
