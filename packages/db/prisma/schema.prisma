@@ -13,8 +13,68 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+model Donor {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  firstName String?
+  lastName  String?
+  address   String?
+  password  String
+  products  Product[]
+  donations Donation[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Product {
+  id        String  @id @default(uuid())
+  name      String
+  image     String[]
+  condition String  // New, Good, Used
+  category  String
+  quantity  Int
+  donorId   String
+  donor     Donor   @relation(fields: [donorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Donation {
+  id          String   @id @default(uuid())
+  donorId     String
+  donor       Donor    @relation(fields: [donorId], references: [id])
+  receiverId  String
+  receiver    Receiver @relation(fields: [receiverId], references: [id])
+  status      DonationStatus @default(PENDING)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime        @updatedAt
+  deliveryType DeliveryType
+  details     Json[] // [{productId: string, quantity: number}]
+}
+
+enum DonationStatus {
+  PENDING
+  COMPLETED
+}
+
+enum DeliveryType {
+  DELIVERED_AT_PLACE
+  TAKEAWAY
+}
+
+model Receiver {
+  id       String    @id @default(uuid())
+  email    String    @unique
+  name     String
+  type     ReceiverType
+  address  String?
+  password String
+  donations Donation[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum ReceiverType {
+  NGO
+  INDIVIDUAL
 }
