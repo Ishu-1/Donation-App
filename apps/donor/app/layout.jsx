@@ -1,6 +1,9 @@
 "use client";
 import localFont from "next/font/local";
+import Navbar from "../components/Navbar";
 import { SessionProvider } from "next-auth/react";
+import { usePathname } from "next/navigation";  // Import usePathname
+import { NextUIProvider } from "@nextui-org/react";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -19,13 +22,23 @@ const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  const pathname = usePathname();  // Get the current pathname
+
+  // Exclude navbar on login and signup pages
+  const excludeNavbar = pathname === "/auth/login" || pathname === "/auth/signup";
+
   return (
-    <SessionProvider>
+    <NextUIProvider>
+      <SessionProvider>
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
+          {/* Conditionally render Navbar */}
+          {!excludeNavbar && <Navbar />}
           {children}
         </body>
       </html>
-    </SessionProvider>
+      </SessionProvider>
+    </NextUIProvider>
+    
   );
 }
