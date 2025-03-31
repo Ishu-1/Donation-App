@@ -11,12 +11,15 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@repo/db":"*",
+    "@repo/db": "*",
     "next": "^15.2.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-icons": "^5.5.0"
   },
   "devDependencies": {
-    
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^4.0.17"
   }
 }
