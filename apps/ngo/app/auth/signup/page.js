@@ -18,14 +18,10 @@ export default function SignupPage() {
     setError("");
     setLoading(true);
 
-    const { name, email, password } = formData;
-    const [firstName, ...lastNameArr] = name.split(" ");
-    const lastName = lastNameArr.join(" ");
-
     const response = await fetch("/api/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ firstName, lastName, email, password }),
+      body: JSON.stringify(formData), // Sending { name, email, password }
     });
 
     setLoading(false);

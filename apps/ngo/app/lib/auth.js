@@ -16,23 +16,23 @@ export const authOptions = {
           throw new Error("Email and password are required.");
         }
 
-        const existingDonor = await db.donor.findUnique({
+        const existingReceiver = await db.receiver.findUnique({
           where: { email: credentials.email },
         });
 
-        if (!existingDonor || !existingDonor.password) {
+        if (!existingReceiver || !existingReceiver.password) {
           throw new Error("Invalid email or password.");
         }
 
-        const isPasswordValid = await bcrypt.compare(credentials.password, existingDonor.password);
+        const isPasswordValid = await bcrypt.compare(credentials.password, existingReceiver.password);
         if (!isPasswordValid) {
           throw new Error("Invalid email or password.");
         }
 
         return {
-          id: existingDonor.id,
-          email: existingDonor.email,
-          name: existingDonor.firstName || "Donor",
+          id: existingReceiver.id,
+          email: existingReceiver.email,
+          name: existingReceiver.name || "Receiver",
         };
       },
     }),
@@ -40,23 +40,22 @@ export const authOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       async profile(profile) {
-        let donor = await db.donor.findUnique({ where: { email: profile.email } });
+        let receiver = await db.receiver.findUnique({ where: { email: profile.email } });
 
-        if (!donor) {
-          donor = await db.donor.create({
+        if (!receiver) {
+          receiver = await db.receiver.create({
             data: {
               email: profile.email,
-              firstName: profile.given_name || "",
-              lastName: profile.family_name || "",
+              name: profile.name || "Google User",
               password: null, // No password for Google users
             },
           });
         }
 
         return {
-          id: donor.id,
-          email: donor.email,
-          name: donor.firstName || "Donor",
+          id: receiver.id,
+          email: receiver.email,
+          name: receiver.name || "Receiver",
         };
       },
     }),
