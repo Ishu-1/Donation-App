@@ -4,10 +4,10 @@ import bcrypt from "bcrypt";
 
 export async function POST(req) {
   try {
-    const { email, password, firstName, lastName } = await req.json();
+    const { email, password, name, type = "INDIVIDUAL" } = await req.json();
 
     // Validate required fields
-    if (!email || !password || !firstName || !lastName) {
+    if (!email || !password || !name) {
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
     }
 
@@ -18,7 +18,7 @@ export async function POST(req) {
     }
 
     // Check if user already exists
-    const existingUser = await db.donor.findUnique({ where: { email } });
+    const existingUser = await db.receiver.findUnique({ where: { email } });
     if (existingUser) {
       return NextResponse.json({ error: "User already exists" }, { status: 409 });
     }
@@ -26,10 +26,10 @@ export async function POST(req) {
     // Hash the password securely
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create the new donor
-    const newUser = await db.donor.create({
-      data: { email, password: hashedPassword, firstName, lastName },
-      select: { id: true, email: true, firstName: true, lastName: true, createdAt: true },
+    // ✅ Add the required `type` field
+    const newUser = await db.receiver.create({
+      data: { email, password: hashedPassword, name, type },
+      select: { id: true, email: true, name: true, type: true, createdAt: true },
     });
 
     return NextResponse.json({ message: "User created successfully", user: newUser }, { status: 201 });
