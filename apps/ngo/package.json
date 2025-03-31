@@ -11,12 +11,12 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@repo/db":"*",
+    "@repo/db": "*",
+    "@tailwindcss/postcss": "^4.0.17",
     "next": "^15.2.1",
+    "postcss": "^8.5.3",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
-  },
-  "devDependencies": {
-    
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.0.17"
   }
 }
