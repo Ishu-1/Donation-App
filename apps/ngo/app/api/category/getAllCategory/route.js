@@ -6,13 +6,27 @@ export async function GET() {
         const categories = await prisma.product.findMany({
             select: {
                 category: true,
+                image: true,
             },
             distinct: ["category"],
         });
 
-        return NextResponse.json({ categories }, { status: 200 });
+        // Extract one image per category
+        const categoryImages = {};
+        categories.forEach(({ category, image }) => {
+            if (!categoryImages[category] && image.length > 0) {
+                categoryImages[category] = image[0]; // Select the first image
+            }
+        });
+
+        const response = categories.map(({ category }) => ({
+            category,
+            image: categoryImages[category] || null,
+        }));
+
+        return NextResponse.json({ categories: response }, { status: 200 });
     } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error("Error fetching categories with images:", error);
         return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
     }
 }
