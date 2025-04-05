@@ -11,7 +11,7 @@ export async function GET(req) {
         }
 
         const receiverId = session.user.id;
-
+        // const receiverId = "cc5409de-0893-4b40-acb7-d013bb5bf6e1"
         const pendingDonations = await prisma.donation.findMany({
             where: { receiverId, status: "PENDING" },
             orderBy: { createdAt: "desc" },
