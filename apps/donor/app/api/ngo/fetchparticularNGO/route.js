@@ -3,14 +3,14 @@ import prisma from "@repo/db/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../../lib/auth";
 
-export async function GET(req, { params }) {
+export async function GET(req) {
     try {
         const session = await getServerSession(authOptions);
         if (!session) {
             return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
         }
 
-        const { id } = params;
+        const id = req.json();
         if (!id) {
             return NextResponse.json({ message: "Receiver ID is required" }, { status: 400 });
         }

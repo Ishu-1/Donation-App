@@ -33,8 +33,8 @@ model Product {
   condition String  // New, Good, Used
   category  String
   quantity  Int
-  donorId   String
-  donor     Donor   @relation(fields: [donorId], references: [id])
+  donorId   String? // Make donor id optional
+  donor     Donor?   @relation(fields: [donorId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -48,7 +48,7 @@ model Donation {
   status      DonationStatus @default(PENDING)
   createdAt   DateTime @default(now())
   updatedAt   DateTime        @updatedAt
-  deliveryType DeliveryType
+  deliveryType DeliveryType?
   details     Json[] // [{productId: string, quantity: number}]
 }
 
@@ -69,6 +69,8 @@ model Receiver {
   type     ReceiverType
   address  String?
   password String
+  description String?
+  motti String?
   donations Donation[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

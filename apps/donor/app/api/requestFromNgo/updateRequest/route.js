@@ -11,6 +11,7 @@ export async function PUT(req) {
         }
 
         const userId = session.user.id;
+        // const userId = "f7d54b27-45f4-47aa-ae38-85d0706f0a4c"
         const { donationId, deliveryType } = await req.json();
 
         if (!donationId || !deliveryType) {
