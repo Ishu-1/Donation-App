@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import prisma from '@repo/db/client';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../../../lib/auth';
-import { sendEmail } from '../../../utils/sendEmail';
+// import { sendEmail } from '../../../utils/sendEmail';
 
 export async function PUT(req) {
   try {
@@ -19,29 +19,40 @@ export async function PUT(req) {
       data: {
         status: 'COMPLETED',
         deliveryType,
-      },
-      include: {
-        receiver: true,
-        donor: true,
-      },
+      }
     });
 
-    const receiverEmail = donation.receiver.email;
+    // Decrease product quantity
+    await Promise.all(
+      donation.details.map(async (item) => {
+        await prisma.product.update({
+          where: { id: item.productId },
+          data: {
+            quantity: {
+              decrement: item.quantity,
+            },
+          },
+        });
+      })
+    );
 
-    const emailHtml = `
-      <h2>Hi ${donation.receiver.name},</h2>
-      <p>Your donation request <strong>#${donation.id.slice(0, 6)}</strong> has been accepted by the donor <strong>${donation.donor.name}</strong>.</p>
-      <p><strong>Delivery Method:</strong> ${deliveryType.replace('_', ' ')}</p>
-      <p>Thank you for using <strong>DonateConnect</strong>!</p>
-    `;
+    // Send email notification
+    // const receiverEmail = donation.receiver.email;
+    // const emailHtml = `
+    //   <h2>Hi ${donation.receiver.name},</h2>
+    //   <p>Your donation request <strong>#${donation.id.slice(0, 6)}</strong> has been accepted by the donor <strong>${donation.donor.name}</strong>.</p>
+    //   <p><strong>Delivery Method:</strong> ${deliveryType.replace('_', ' ')}</p>
+    //   <p>Thank you for using <strong>DonateConnect</strong>!</p>
+    // `;
 
-    await sendEmail({
-      to: receiverEmail,
-      subject: 'Your donation request has been accepted!',
-      html: emailHtml,
-    });
+    // await sendEmail({
+    //   to: receiverEmail,
+    //   subject: 'Your donation request has been accepted!',
+    //   html: emailHtml,
+    // });
 
-    return NextResponse.json({ message: 'Donation accepted and email sent.' }, { status: 200 });
+    return NextResponse.json({ message: 'Donation accepted, quantity updated and email sent.' }, { status: 200 });
+
   } catch (err) {
     console.error('Error updating donation status:', err);
     return NextResponse.json({ message: 'Failed to accept donation' }, { status: 500 });
