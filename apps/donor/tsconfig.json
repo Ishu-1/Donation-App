@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "app/utils/sendemail.js"  ],
+, "app/utils/sendEmail.js"  ],
   "exclude": [
     "node_modules"
   ]

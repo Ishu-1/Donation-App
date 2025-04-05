@@ -8,7 +8,7 @@ export async function POST(req) {
         // if (!session || !session.user || !session.user.id) {
         //     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
         // }
-        const receiverId = "cc5409de-0893-4b40-acb7-d013bb5bf6e1"
+        const receiverId = "4f0d170d-b979-4aef-9dab-dfdeadf2a3c6"
         const { productId, quantity } = await req.json();
         if (!productId || !quantity) {
             return NextResponse.json({ message: "Product ID and quantity are required" }, { status: 400 });
