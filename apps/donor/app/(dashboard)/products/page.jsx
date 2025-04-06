@@ -61,7 +61,7 @@ export default function ProductPage() {
     try {
       const payload = {
         name: formData.name.trim(),
-        image: formData.image.trim(),
+        image: [formData.image.trim()],
         condition: formData.condition.trim(),
         category: formData.category.trim(),
         quantity: Number(formData.quantity),
