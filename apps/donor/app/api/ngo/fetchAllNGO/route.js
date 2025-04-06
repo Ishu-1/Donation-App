@@ -16,6 +16,8 @@ export async function GET(req) {
                 name: true,
                 email: true,
                 address: true,
+                description: true,
+                motti: true,
                 type: true,
                 createdAt: true,
             },
