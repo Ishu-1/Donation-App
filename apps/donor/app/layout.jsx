@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { NextUIProvider } from "@nextui-org/react";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
+import { Toaster } from 'react-hot-toast';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,7 +38,7 @@ export default function RootLayout({ children }) {
         <NextUIProvider>
           <SessionProvider>
             {!excludeNavbar && <Navbar />}
-            <ToastContainer />
+            <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
             <main className="flex-grow">{children}</main>
             {!excludeNavbar && <Footer />}
           </SessionProvider>

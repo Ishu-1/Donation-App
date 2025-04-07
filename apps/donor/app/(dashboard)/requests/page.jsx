@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function PendingRequests() {
     const [donations, setDonations] = useState([]);
@@ -69,7 +71,7 @@ export default function PendingRequests() {
             await fetchAllReceiverNames(data);
         } catch (err) {
             console.error('Error fetching donations:', err);
-            alert('Failed to load donations');
+            toast.error('Failed to load donations');
         } finally {
             setLoading(false);
         }
@@ -81,11 +83,11 @@ export default function PendingRequests() {
                 donationId,
                 deliveryType,
             });
-            alert('Donation accepted successfully!');
+            toast.success('Donation accepted successfully!');
             fetchDonations();
         } catch (err) {
             console.error('Error accepting donation:', err);
-            alert('Failed to accept donation');
+            toast.error('Failed to accept donation');
         }
     };
 
@@ -197,6 +199,7 @@ export default function PendingRequests() {
                     </table>
                 )}
             </div>
+            <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
         </div>
     );
 }
