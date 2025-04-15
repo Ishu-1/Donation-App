@@ -2,11 +2,19 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { FaUser, FaEnvelope, FaLock, FaHandsHelping } from "react-icons/fa";
+import { FaUser, FaEnvelope, FaLock, FaHandsHelping, FaMapMarkerAlt, FaQuoteLeft, FaInfoCircle } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 export default function NgoSignupPage() {
-  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    type: "NGO", // fixed for NGO signup
+    address: "",
+    description: "",
+    motti: "",
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
@@ -54,8 +62,6 @@ export default function NgoSignupPage() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-green-50 to-green-100">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
-
-        {/* Header Section */}
         <div className="text-center mb-6">
           <div className="flex justify-center items-center mb-4">
             <FaHandsHelping className="text-green-500 text-4xl" />
@@ -66,8 +72,8 @@ export default function NgoSignupPage() {
 
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Name */}
           <div className="relative">
             <FaUser className="absolute left-3 top-3 text-gray-400" />
             <input
@@ -81,6 +87,7 @@ export default function NgoSignupPage() {
             />
           </div>
 
+          {/* Email */}
           <div className="relative">
             <FaEnvelope className="absolute left-3 top-3 text-gray-400" />
             <input
@@ -94,6 +101,7 @@ export default function NgoSignupPage() {
             />
           </div>
 
+          {/* Password */}
           <div className="relative">
             <FaLock className="absolute left-3 top-3 text-gray-400" />
             <input
@@ -107,10 +115,48 @@ export default function NgoSignupPage() {
             />
           </div>
 
+          {/* Address */}
+          <div className="relative">
+            <FaMapMarkerAlt className="absolute left-3 top-3 text-gray-400" />
+            <input
+              type="text"
+              name="address"
+              placeholder="Address"
+              value={formData.address}
+              onChange={handleChange}
+              className="w-full pl-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            />
+          </div>
+
+          {/* Description */}
+          <div className="relative">
+            <FaInfoCircle className="absolute left-3 top-3 text-gray-400" />
+            <textarea
+              name="description"
+              placeholder="Short Description"
+              value={formData.description}
+              onChange={handleChange}
+              className="w-full pl-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            ></textarea>
+          </div>
+
+          {/* Motti */}
+          <div className="relative">
+            <FaQuoteLeft className="absolute left-3 top-3 text-gray-400" />
+            <input
+              type="text"
+              name="motti"
+              placeholder="NGO Motto"
+              value={formData.motti}
+              onChange={handleChange}
+              className="w-full pl-10 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+            />
+          </div>
+
           <button
             type="submit"
             className="w-full bg-green-500 text-white py-3 rounded-md hover:bg-green-600 transition font-semibold"
-            disabled={loading || !formData.name || !formData.email || !formData.password}
+            disabled={loading}
           >
             {loading ? "Signing up..." : "Sign Up as NGO"}
           </button>
@@ -122,7 +168,6 @@ export default function NgoSignupPage() {
           <span className="border-b w-1/4"></span>
         </div>
 
-        {/* Google Sign Up */}
         <button
           onClick={handleGoogleSignup}
           className="w-full flex items-center justify-center bg-white border border-gray-300 p-3 rounded-md shadow-sm hover:bg-gray-100 transition"
@@ -131,7 +176,6 @@ export default function NgoSignupPage() {
           <FcGoogle className="text-xl mr-2" /> Sign up with Google
         </button>
 
-        {/* Redirect to Login */}
         <div className="text-center mt-5">
           <p className="text-gray-600">
             Already have an NGO account?{" "}
