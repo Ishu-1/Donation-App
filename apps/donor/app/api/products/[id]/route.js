@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import prisma from "@repo/db/client";
 
-export async function GET(req, { params }) {
+export async function GET(req,  context) {
     try {
-        const { id } = params;
+        const { id } = context.params;
         
         const product = await prisma.product.findUnique({
             where: { id },
