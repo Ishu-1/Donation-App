@@ -11,6 +11,7 @@ export async function DELETE(req) {
         }
 
         const donorId = session.user.id;
+        // const donorId = "554c0a8c-3325-45fd-aa3c-87d9630cbf31"
         const { productId } = await req.json();
 
         if (!productId) {
@@ -36,3 +37,12 @@ export async function DELETE(req) {
         return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
     }
 }
+// {
+//     "name": "Winter boot",
+//     "image": [
+//       "https://example.com/image1.jpg"
+//     ],
+//     "condition": "Very Good",
+//     "category": "Shoe",
+//     "quantity": 3
+//   }

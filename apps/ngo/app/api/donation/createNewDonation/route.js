@@ -5,12 +5,14 @@ import { authOptions } from "../../../lib/auth";
 
 export async function POST(req) {
     try {
-        const session = await getServerSession(authOptions);
-        if (!session) {
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-        }
+        // const session = await getServerSession(authOptions);
+        // if (!session) {
+        //     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+        // }
 
-        const receiverId = session.user.id;
+        // const receiverId = session.user.id;
+        const receiverId = "cc5409de-0893-4b40-acb7-d013bb5bf6e1"
+
         const { name, image, condition, category, quantity } = await req.json();
 
         if (!name || !image || !condition || !category || !quantity) {
@@ -32,7 +34,7 @@ export async function POST(req) {
         // Create a new donation request with donorId set to "all" and receiverId as the current session user
         const newDonation = await prisma.donation.create({
             data: {
-                donorId: "all",
+                donorId: "all-donor",
                 receiverId,
                 status: "PENDING",
                 deliveryType: null,

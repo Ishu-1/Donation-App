@@ -10,7 +10,7 @@ export async function POST(req) {
             return NextResponse.json({ message: "Unauthorized", success: false }, { status: 401 });
         }
         const donorId = session.user.id;
-        
+        // const donorId = "554c0a8c-3325-45fd-aa3c-87d9630cbf31"
         const { firstName, lastName, email, address, password } = await req.json();
         
         const updatedDonor = await prisma.donor.update({

@@ -6,17 +6,18 @@ import { authOptions } from "../../../lib/auth";
 export async function GET() {
     try {
         const session = await getServerSession(authOptions);
+        console.log(session);
         if (!session) {
             return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
         }
-
         const donorId = session.user.id;
+        // const donorId = "554c0a8c-3325-45fd-aa3c-87d9630cbf31"
 
         // Fetch all donations for the donor
         const donations = await prisma.donation.findMany({
             where: { donorId },
             orderBy: { createdAt: "desc" },
-            include: { details: true },
+            // select: { details: true },
         });
 
         // Check if pending donations have enough stock

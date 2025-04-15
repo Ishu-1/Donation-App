@@ -1,36 +1,30 @@
 import { NextResponse } from "next/server";
 import prisma from "@repo/db/client";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../../../lib/auth";
 
-export async function GET(req, { params }) {
-    try {
-        const session = await getServerSession(authOptions);
-        if (!session) {
-            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-        }
+export async function GET() {
+  try {
+    const donations = await prisma.donation.findMany({
+      where: {
+        donorId: "all-donor",
+      },
+      select: {
+        id: true,
+        donorId: true,
+        receiverId: true,
+        status: true,
+        createdAt: true,
+        updatedAt: true,
+        deliveryType: true,
+        details: true,
+      },
+    });
 
-        const { donorId } = params;
-
-        const whereCondition = donorId === "all" ? {} : { donorId };
-
-        const donations = await prisma.donation.findMany({
-            where: whereCondition,
-            select: {
-                id: true,
-                donorId: true,
-                receiverId: true,
-                status: true,
-                createdAt: true,
-                updatedAt: true,
-                deliveryType: true,
-                details: true,
-            },
-        });
-
-        return NextResponse.json({ donations }, { status: 200 });
-    } catch (error) {
-        console.error("Error fetching donations:", error);
-        return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
-    }
+    return NextResponse.json({ donations }, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching donations:", error);
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 }
+    );
+  }
 }

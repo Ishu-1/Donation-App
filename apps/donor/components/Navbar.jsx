@@ -1,115 +1,107 @@
 "use client";
-import { useState } from "react";
-import { signOut } from "next-auth/react";
-import { FaUserCircle, FaBox, FaHandsHelping, FaSignOutAlt } from "react-icons/fa";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 
-export default function DonorNavbar({ donorName }) {
-  const [open, setOpen] = useState(false);
+import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
+import { Home, Users, Package, ClipboardList, LayoutDashboard, LogOut } from "lucide-react";
+import { useState } from "react";
+
+const DonationNavbar = () => {
   const router = useRouter();
+  const [activeTab, setActiveTab] = useState("/");
+
+  const handleNavigation = (path) => {
+    setActiveTab(path);
+    router.push(path);
+  };
 
   const handleLogout = async () => {
-    await signOut({ redirect: false });
-    router.push("/auth/login");
+    await signOut({ redirect: false }); // Don't auto redirect
+    router.push("/auth/login"); // Manually navigate to login
   };
 
   return (
-    <div className="bg-white shadow-xl py-4 px-6 flex items-center justify-between rounded-b-3xl">
-      {/* Left Side: Donor Avatar and Name */}
-      <div className="flex items-center space-x-4">
-        <FaUserCircle className="text-green-500 text-3xl" />
-        <span className="text-2xl font-semibold text-gray-800">{donorName}</span>
-      </div>
+    <header className="w-full bg-gray-900 shadow-md sticky top-0 z-10 border-b border-gray-800">
+      <div className="max-w-7xl mx-auto">
+        <nav className="flex justify-between items-center px-6 py-4">
+          {/* Left - Logo */}
+          <button
+            onClick={() => handleNavigation("/")}
+            className="flex items-center gap-2 text-xl font-bold text-teal-400 hover:text-teal-300 transition-colors duration-200 cursor-pointer"
+          >
+            <span className="text-2xl font-extrabold bg-teal-900 text-teal-300 rounded-lg p-1">D</span>
+            <span>DoNation</span>
+          </button>
 
-      {/* Right Side: Navigation Links */}
-      <div className="hidden md:flex items-center space-x-10">
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          onClick={() => router.push("/donor/products")}
-          className="text-lg text-gray-600 hover:text-green-500 transition-all flex items-center space-x-2"
-        >
-          <FaBox className="text-xl" />
-          <span>Products</span>
-        </motion.button>
-
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          onClick={() => router.push("/donor/dashboard")}
-          className="text-lg text-gray-600 hover:text-green-500 transition-all flex items-center space-x-2"
-        >
-          <FaHandsHelping className="text-xl" />
-          <span>Dashboard</span>
-        </motion.button>
-
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          onClick={() => router.push("/donor/donations")}
-          className="text-lg text-gray-600 hover:text-green-500 transition-all flex items-center space-x-2"
-        >
-          <FaHandsHelping className="text-xl" />
-          <span>Donations</span>
-        </motion.button>
-
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          onClick={handleLogout}
-          className="text-lg text-gray-600 hover:text-green-500 transition-all flex items-center space-x-2"
-        >
-          <FaSignOutAlt className="text-xl" />
-          <span>Logout</span>
-        </motion.button>
-      </div>
-
-      {/* Mobile Menu (Optional) */}
-      <div className="md:hidden flex items-center space-x-4">
-        <button
-          onClick={() => setOpen(!open)}
-          className="text-gray-600 hover:text-green-500 text-2xl"
-        >
-          {open ? "Close" : "Menu"}
-        </button>
-
-        {open && (
-          <div className="absolute top-16 right-6 bg-white shadow-lg rounded-lg p-6 w-48 space-y-4">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              onClick={() => router.push("/donor/products")}
-              className="text-lg text-gray-600 hover:text-green-500 transition-all flex items-center space-x-2"
-            >
-              <FaBox className="text-xl" />
-              <span>Products</span>
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              onClick={() => router.push("/donor/dashboard")}
-              className="text-lg text-gray-600 hover:text-green-500 transition-all flex items-center space-x-2"
-            >
-              <FaHandsHelping className="text-xl" />
-              <span>Dashboard</span>
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              onClick={() => router.push("/donor/donations")}
-              className="text-lg text-gray-600 hover:text-green-500 transition-all flex items-center space-x-2"
-            >
-              <FaHandsHelping className="text-xl" />
-              <span>Donations</span>
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              onClick={handleLogout}
-              className="text-lg text-gray-600 hover:text-green-500 transition-all flex items-center space-x-2"
-            >
-              <FaSignOutAlt className="text-xl" />
-              <span>Logout</span>
-            </motion.button>
+          {/* Center - Navigation Buttons */}
+          <div className="flex items-center gap-1 bg-gray-800 p-1 rounded-lg shadow-lg">
+            <NavButton 
+              icon={<Users size={18} />} 
+              label="Receivers" 
+              path="/receivers"
+              activeTab={activeTab}
+              onClick={() => handleNavigation("/receivers")} 
+            />
+            <NavButton 
+              icon={<Package size={18} />} 
+              label="Products" 
+              path="/products"
+              activeTab={activeTab}
+              onClick={() => handleNavigation("/products")} 
+            />
+            <NavButton 
+              icon={<ClipboardList size={18} />} 
+              label="Requests" 
+              path="/requests"
+              activeTab={activeTab}
+              onClick={() => handleNavigation("/requests")} 
+            />
+            <NavButton 
+              icon={<ClipboardList size={18} />} 
+              label="Unlisted" 
+              path="/unlisted-requests"
+              activeTab={activeTab}
+              onClick={() => handleNavigation("/unlisted-requests")} 
+            />
+            <NavButton 
+              icon={<LayoutDashboard size={18} />} 
+              label="Dashboard" 
+              path="/dashboard"
+              activeTab={activeTab}
+              onClick={() => handleNavigation("/dashboard")} 
+            />
           </div>
-        )}
+
+          {/* Right - Logout Button */}
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 text-gray-300 hover:text-red-300 font-medium bg-gray-800 border border-gray-700 hover:border-red-900 px-4 py-2 rounded-lg transition-all duration-200 hover:bg-gray-700 shadow-md active:bg-red-900 active:text-white cursor-pointer"
+          >
+            <LogOut size={18} />
+            <span>Logout</span>
+          </button>
+        </nav>
       </div>
-    </div>
+    </header>
   );
-}
+};
+
+// Navigation button component
+const NavButton = ({ icon, label, onClick, path, activeTab }) => {
+  const isActive = path === activeTab;
+  
+  return (
+    <button
+      onClick={onClick}
+      className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 font-medium cursor-pointer
+        ${isActive 
+          ? "bg-teal-700 text-white" 
+          : "text-gray-300 hover:text-teal-300 hover:bg-gray-700 active:bg-teal-800 active:text-white"
+        }`}
+    >
+      {icon}
+      <span>{label}</span>
+    </button>
+  );
+};
+
+export default DonationNavbar;

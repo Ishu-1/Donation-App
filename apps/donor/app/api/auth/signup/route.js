@@ -4,10 +4,10 @@ import bcrypt from "bcrypt";
 
 export async function POST(req) {
   try {
-    const { email, password, firstName, lastName } = await req.json();
+    const { email, password, firstName, lastName, address } = await req.json();
 
     // Validate required fields
-    if (!email || !password || !firstName || !lastName) {
+    if (!email || !password || !firstName || !lastName || !address) {
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
     }
 
@@ -28,8 +28,21 @@ export async function POST(req) {
 
     // Create the new donor
     const newUser = await db.donor.create({
-      data: { email, password: hashedPassword, firstName, lastName },
-      select: { id: true, email: true, firstName: true, lastName: true, createdAt: true },
+      data: {
+        email,
+        password: hashedPassword,
+        firstName,
+        lastName,
+        address,
+      },
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        address: true,
+        createdAt: true,
+      },
     });
 
     return NextResponse.json({ message: "User created successfully", user: newUser }, { status: 201 });
