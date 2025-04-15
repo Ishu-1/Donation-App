@@ -3,12 +3,14 @@
   "private": true,
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev",
+    "dev": "cross-env TURBO_FORCE_NATIVE=1 turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
+    "@next/swc-win32-x64-msvc": "^15.2.4",
+    "cross-env": "^7.0.3",
     "prettier": "^3.5.3",
     "turbo": "^2.4.4"
   },
