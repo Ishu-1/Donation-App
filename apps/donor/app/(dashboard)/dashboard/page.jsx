@@ -200,62 +200,62 @@ export default function DonorDashboard() {
         Donated Products
       </h2>
 
-      <div className="overflow-x-auto rounded-lg shadow">
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="bg-slate-700 text-white">
-              <th className="px-4 py-3 text-left">Date of donation</th>
-              <th className="px-4 py-3 text-left">Receiver ID</th>
-              <th className="px-4 py-3 text-left">Recipient Name</th>
-              <th className="px-4 py-3 text-left">Receiver Type</th>
-              <th className="px-4 py-3 text-left">Product Name</th>
-              <th className="px-4 py-3 text-left">Category</th>
-              <th className="px-4 py-3 text-left">Quantity</th>
+      <div className="overflow-x-auto rounded-lg shadow ring-1 ring-gray-300">
+      <table className="min-w-full text-sm text-left text-slate-700">
+        <thead className="bg-slate-700 text-white text-xs uppercase tracking-wider">
+          <tr>
+            <th className="px-6 py-4">Date of donation</th>
+            <th className="px-6 py-4">Receiver ID</th>
+            <th className="px-6 py-4">Recipient Name</th>
+            <th className="px-6 py-4">Receiver Type</th>
+            <th className="px-6 py-4">Product Name</th>
+            <th className="px-6 py-4">Category</th>
+            <th className="px-6 py-4">Quantity</th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-slate-200">
+          {isLoading ? (
+            <tr>
+              <td colSpan="7" className="text-center py-6 text-slate-500">
+                Loading...
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {isLoading ? (
-              <tr>
-                <td colSpan="7" className="text-center py-4 bg-gray-200">
-                  Loading...
-                </td>
-              </tr>
-            ) : donations.length === 0 ? (
-              <tr>
-                <td colSpan="7" className="text-center py-4 bg-gray-200">
-                  No completed donations found
-                </td>
-              </tr>
-            ) : (
-              donations.flatMap((donation, donationIndex) => {
-                const parsedDetails = parseDonationDetails(donation.details);
-                const recipientInfo = getRecipientInfo(donation.receiverId);
+          ) : donations.length === 0 ? (
+            <tr>
+              <td colSpan="7" className="text-center py-6 text-slate-500">
+                No completed donations found
+              </td>
+            </tr>
+          ) : (
+            donations.flatMap((donation, donationIndex) => {
+              const parsedDetails = parseDonationDetails(donation.details);
+              const recipientInfo = getRecipientInfo(donation.receiverId);
 
-                return parsedDetails.map((detail, detailIndex) => {
-                  const productInfo = getProductInfo(detail.productId);
-                  const rowClass =
-                    (donationIndex + detailIndex) % 2 === 0
-                      ? "bg-slate-200"
-                      : "bg-slate-300";
+              return parsedDetails.map((detail, detailIndex) => {
+                const productInfo = getProductInfo(detail.productId);
+                const isEven = (donationIndex + detailIndex) % 2 === 0;
+                return (
+                  <tr
+                    key={`${donation.id}-${detailIndex}`}
+                    className={isEven ? 'bg-slate-50' : 'bg-slate-100'}
+                  >
+                    <td className="px-6 py-4">{formatDate(donation.createdAt)}</td>
+                    <td className="px-6 py-4">
+                      {donation.receiverId?.substring(0, 6) || '—'}
+                    </td>
+                    <td className="px-6 py-4">{recipientInfo.name}</td>
+                    <td className="px-6 py-4">{recipientInfo.type}</td>
+                    <td className="px-6 py-4">{productInfo.name}</td>
+                    <td className="px-6 py-4">{productInfo.category}</td>
+                    <td className="px-6 py-4">{detail.quantity || 1}</td>
+                  </tr>
+                );
+              });
+            })
+          )}
+        </tbody>
+      </table>
 
-                  return (
-                    <tr key={`${donation.id}-${detailIndex}`} className={rowClass}>
-                      <td className="px-4 py-3">{formatDate(donation.createdAt)}</td>
-                      <td className="px-4 py-3">
-                        {donation.receiverId?.substring(0, 6) || "—"}
-                      </td>
-                      <td className="px-4 py-3">{recipientInfo.name}</td>
-                      <td className="px-4 py-3">{recipientInfo.type}</td>
-                      <td className="px-4 py-3">{productInfo.name}</td>
-                      <td className="px-4 py-3">{productInfo.category}</td>
-                      <td className="px-4 py-3">{detail.quantity || 1}</td>
-                    </tr>
-                  );
-                });
-              })
-            )}
-          </tbody>
-        </table>
       </div>
     </div>
   );

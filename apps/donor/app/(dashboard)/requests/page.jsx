@@ -109,94 +109,98 @@ export default function PendingRequests() {
                 ) : donations.length === 0 ? (
                     <p className="text-center text-slate-500 text-lg py-20">No donations found.</p>
                 ) : (
-                    <table className="w-full bg-white border border-slate-300">
-                        <thead>
-                            <tr className="bg-slate-700 text-white text-sm">
-                                <th className="p-3 text-left">Status</th>
-                                <th className="p-3 text-left">Product Name(s)</th>
-                                <th className="p-3 text-center">Quantity</th>
-                                <th className="p-3 text-left">Delivery Type</th>
-                                <th className="p-3 text-left">Receiver</th>
-                                <th className="p-3 text-left">Created At</th>
-                                <th className="p-3 text-center">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {donations.map((donation, idx) => {
+                    <div className="overflow-x-auto rounded-lg shadow ring-1 ring-gray-300">
+                        <table className="min-w-full text-sm text-left text-slate-700">
+                            <thead className="bg-slate-700 text-white text-xs uppercase tracking-wider">
+                                <tr>
+                                <th className="px-6 py-4">Status</th>
+                                <th className="px-6 py-4">Product Name</th>
+                                <th className="px-6 py-4">Quantity</th>
+                                <th className="px-6 py-4">Delivery Type</th>
+                                <th className="px-6 py-4">Receiver</th>
+                                <th className="px-6 py-4">Created At</th>
+                                <th className="px-6 py-4 text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody className="bg-white divide-y divide-slate-200">
+                                {donations.map((donation, idx) => {
                                 const isStockOk = donation.stockStatus === 'OK';
-                                return (
+
+                                return donation.status === 'PENDING' ? (
                                     <tr
-                                        key={donation.id}
-                                        className={idx % 2 === 0 ? 'bg-slate-200' : 'bg-slate-300'}
+                                    key={donation.id}
+                                    className={idx % 2 === 0 ? 'bg-slate-50' : 'bg-slate-100'}
                                     >
-                                        <td className="p-3 font-medium">
-                                            <span
-                                                className={`px-2 py-1 rounded text-xs font-semibold ${
-                                                    donation.stockStatus === 'OUT_OF_STOCK'
-                                                        ? 'bg-red-100 text-red-700'
-                                                        : donation.status === 'COMPLETED'
-                                                        ? 'bg-green-100 text-green-700'
-                                                        : 'bg-yellow-100 text-yellow-700'
-                                                }`}
+                                    <td className="px-6 py-4 font-medium">
+                                        <span
+                                        className={`px-2 py-1 rounded text-xs font-semibold ${
+                                            donation.stockStatus === 'OUT_OF_STOCK'
+                                            ? 'bg-red-100 text-red-700'
+                                            : donation.status === 'COMPLETED'
+                                            ? 'bg-green-100 text-green-700'
+                                            : 'bg-yellow-100 text-yellow-700'
+                                        }`}
+                                        >
+                                        {donation.status}
+                                        </span>
+                                    </td>
+
+                                    <td className="px-6 py-4">
+                                        <ul className="list-disc list-inside text-sm">
+                                        {donation.details.map((item, i) => (
+                                            <li key={i}>
+                                            {productNames[item.productId] || 'Loading...'}
+                                            </li>
+                                        ))}
+                                        </ul>
+                                    </td>
+
+                                    <td className="px-6 py-4 text-center">
+                                        {donation.details.reduce((sum, item) => sum + item.quantity, 0)}
+                                    </td>
+
+                                    <td className="px-6 py-4">{donation.deliveryType || 'Not chosen yet'}</td>
+                                    <td className="px-6 py-4">{receiverNames[donation.receiverId] || 'Loading...'}</td>
+                                    <td className="px-6 py-4">{new Date(donation.createdAt).toLocaleString()}</td>
+
+                                    <td className="px-6 py-4 text-center">
+                                        {donation.status === 'PENDING' ? (
+                                        <div className="flex gap-2 justify-center">
+                                            <button
+                                            onClick={() =>
+                                                acceptRequest(donation.id, 'DELIVERED_AT_PLACE')
+                                            }
+                                            disabled={!isStockOk}
+                                            className={`text-sm px-3 py-1 rounded transition text-white ${
+                                                isStockOk
+                                                ? 'bg-emerald-600 hover:bg-emerald-700 cursor-pointer'
+                                                : 'bg-gray-400 cursor-not-allowed'
+                                            }`}
                                             >
-                                                {donation.status}
-                                            </span>
-                                        </td>
-
-                                        <td className="p-3">
-                                            <ul className="list-disc list-inside text-sm">
-                                                {donation.details.map((item, i) => (
-                                                    <li key={i}>
-                                                        {productNames[item.productId] || 'Loading...'}
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </td>
-                                        <td className="p-3 text-center">
-                                            {donation.details.reduce((sum, item) => sum + item.quantity, 0)}
-                                        </td>
-
-                                        <td className="p-3">{donation.deliveryType || 'Not chosen yet'}</td>
-                                        <td className="p-3">{receiverNames[donation.receiverId] || 'Loading...'}</td>
-                                        <td className="p-3">{new Date(donation.createdAt).toLocaleString()}</td>
-                                        <td className="p-3 text-center space-y-2">
-                                            {donation.status === 'PENDING' ? (
-                                                <>
-                                                    <button
-                                                        onClick={() =>
-                                                            acceptRequest(donation.id, 'DELIVERED_AT_PLACE')
-                                                        }
-                                                        disabled={!isStockOk}
-                                                        className={`text-xs px-3 py-1 rounded transition text-white ${
-                                                            isStockOk
-                                                                ? 'bg-emerald-600 hover:bg-emerald-700 cursor-pointer'
-                                                                : 'bg-gray-400 cursor-not-allowed'
-                                                        }`}
-                                                    >
-                                                        Accept - Deliver
-                                                    </button>
-                                                    <br />
-                                                    <button
-                                                        onClick={() => acceptRequest(donation.id, 'TAKEAWAY')}
-                                                        disabled={!isStockOk}
-                                                        className={`text-xs px-3 py-1 rounded transition text-white ${
-                                                            isStockOk
-                                                                ? 'bg-indigo-600 hover:bg-indigo-700 cursor-pointer'
-                                                                : 'bg-gray-400 cursor-not-allowed'
-                                                        }`}
-                                                    >
-                                                        Accept - Takeaway
-                                                    </button>
-                                                </>
-                                            ) : (
-                                                <span className="text-sm text-gray-600 italic">No action</span>
-                                            )}
-                                        </td>
+                                            Deliver
+                                            </button>
+                                            <button
+                                            onClick={() => acceptRequest(donation.id, 'TAKEAWAY')}
+                                            disabled={!isStockOk}
+                                            className={`text-sm px-3 py-1 rounded transition text-white ${
+                                                isStockOk
+                                                ? 'bg-indigo-600 hover:bg-indigo-700 cursor-pointer'
+                                                : 'bg-gray-400 cursor-not-allowed'
+                                            }`}
+                                            >
+                                            Takeaway
+                                            </button>
+                                        </div>
+                                        ) : (
+                                        <span className="text-sm text-gray-600 italic">Done</span>
+                                        )}
+                                    </td>
                                     </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
+                                ) : null;
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
                 )}
             </div>
             <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
