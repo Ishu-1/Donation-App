@@ -3,6 +3,7 @@ import prisma from "@repo/db/client";
 
 export async function GET() {
     try {
+        console.log("GET /api/category/getAllCategory hit!");
         const categories = await prisma.product.findMany({
             select: {
                 category: true,

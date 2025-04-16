@@ -42,10 +42,17 @@ const NgoNavbar = () => {
           <div className="flex items-center gap-1 bg-gray-800 p-1 rounded-lg shadow-lg">
             <NavButton 
               icon={<Package size={18} />} 
-              label="Products" 
-              path="/products"
+              label="Category" 
+              path="/category"
               activeTab={activeTab}
-              onClick={() => handleNavigation("/products")} 
+              onClick={() => handleNavigation("/category")} 
+            />
+            <NavButton 
+              icon={<Package size={18} />} 
+              label="Pending Requests" 
+              path="/pending-requests"
+              activeTab={activeTab}
+              onClick={() => handleNavigation("/pending-requests")} 
             />
             <NavButton 
               icon={<Users size={18} />} 
