@@ -5,20 +5,21 @@ import { authOptions } from "../../../lib/auth";
 
 export async function POST(req) {
     try {
-        // const session = await getServerSession(authOptions);
-        // if (!session) {
-        //     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-        // }
+        const session = await getServerSession(authOptions);
+        if (!session) {
+            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+        }
 
-        // const receiverId = session.user.id;
-        const receiverId = "cc5409de-0893-4b40-acb7-d013bb5bf6e1"
+        const receiverId = session.user.id;
+        console.log(receiverId);
+        // const receiverId = "cc5409de-0893-4b40-acb7-d013bb5bf6e1"
 
         const { name, image, condition, category, quantity } = await req.json();
 
-        if (!name || !image || !condition || !category || !quantity) {
+        if (!name || !condition || !category || !quantity) {
             return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
         }
-
+        // image=[""]
         // Create a new product with donorId set to null
         const newProduct = await prisma.product.create({
             data: {

@@ -3,7 +3,7 @@ import prisma from "@repo/db/client";
 
 export async function GET(req,  context) {
     try {
-        const { id } = context.params;
+        const { id } = await context.params;
         
         const product = await prisma.product.findUnique({
             where: { id },

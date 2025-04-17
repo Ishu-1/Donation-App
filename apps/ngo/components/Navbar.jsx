@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation"; // ✅ ADDED usePathname
 import { signOut } from "next-auth/react";
 import {
   Package,
@@ -9,14 +9,12 @@ import {
   LayoutDashboard,
   LogOut,
 } from "lucide-react";
-import { useState } from "react";
 
 const NgoNavbar = () => {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("/");
+  const pathname = usePathname(); // ✅ GET CURRENT PATHNAME
 
   const handleNavigation = (path) => {
-    setActiveTab(path);
     router.push(path);
   };
 
@@ -34,45 +32,38 @@ const NgoNavbar = () => {
             onClick={() => handleNavigation("/")}
             className="flex items-center gap-2 text-xl font-bold text-teal-400 hover:text-teal-300 transition-colors duration-200 cursor-pointer"
           >
-            <span className="text-2xl font-extrabold bg-teal-900 text-teal-300 rounded-lg p-1">N</span>
+            <span className="text-2xl font-extrabold bg-teal-900 text-teal-300 rounded-lg p-1">B</span>
             <span>DoNation Beneficiaries</span>
           </button>
 
           {/* Navigation */}
           <div className="flex items-center gap-1 bg-gray-800 p-1 rounded-lg shadow-lg">
             <NavButton 
-              icon={<Package size={18} />} 
+              icon={<ClipboardPlus size={18} />} 
               label="Category" 
               path="/category"
-              activeTab={activeTab}
+              currentPath={pathname} // ✅ PASS pathname
               onClick={() => handleNavigation("/category")} 
             />
             <NavButton 
               icon={<Package size={18} />} 
               label="Pending Requests" 
-              path="/pending-requests"
-              activeTab={activeTab}
-              onClick={() => handleNavigation("/pending-requests")} 
+              path="/pendingRequests"
+              currentPath={pathname}
+              onClick={() => handleNavigation("/pendingRequests")} 
             />
             <NavButton 
               icon={<Users size={18} />} 
               label="Donors" 
               path="/donors"
-              activeTab={activeTab}
+              currentPath={pathname}
               onClick={() => handleNavigation("/donors")} 
-            />
-            <NavButton 
-              icon={<ClipboardPlus size={18} />} 
-              label="Request Donation" 
-              path="/new-request"
-              activeTab={activeTab}
-              onClick={() => handleNavigation("/new-request")} 
             />
             <NavButton 
               icon={<LayoutDashboard size={18} />} 
               label="Dashboard" 
               path="/dashboard"
-              activeTab={activeTab}
+              currentPath={pathname}
               onClick={() => handleNavigation("/dashboard")} 
             />
           </div>
@@ -91,8 +82,9 @@ const NgoNavbar = () => {
   );
 };
 
-const NavButton = ({ icon, label, onClick, path, activeTab }) => {
-  const isActive = path === activeTab;
+const NavButton = ({ icon, label, onClick, path, currentPath }) => {
+  // ✅ CHECK IF CURRENT ROUTE MATCHES
+  const isActive = currentPath.startsWith(path) && currentPath !== "/";
 
   return (
     <button

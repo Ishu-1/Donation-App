@@ -1,14 +1,17 @@
 import { NextResponse } from "next/server";
 import prisma from "@repo/db/client";
 import { getServerSession } from "next-auth";
+import { authOptions } from "../../../lib/auth";
 
 export async function POST(req) {
     try {
-        // const session = await getServerSession();
-        // if (!session || !session.user || !session.user.id) {
-        //     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-        // }
-        const receiverId = "84e4fa1f-c6d0-4d5d-b21f-63eb44866d69"
+        const session = await getServerSession(authOptions);
+        console.log('User id    :', session.user.id);
+        if (!session || !session.user || !session.user.id) {
+            return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+        }
+        const receiverId = session.user.id;
+        // const receiverId = "84e4fa1f-c6d0-4d5d-b21f-63eb44866d69"
         const { productId, quantity } = await req.json();
         if (!productId || !quantity) {
             return NextResponse.json({ message: "Product ID and quantity are required" }, { status: 400 });

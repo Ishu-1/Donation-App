@@ -1,22 +1,27 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation"; // ✅ ADDED usePathname
 import { signOut } from "next-auth/react";
-import { Home, Users, Package, ClipboardList, LayoutDashboard, LogOut } from "lucide-react";
-import { useState } from "react";
+import {
+  Home,
+  Users,
+  Package,
+  ClipboardList,
+  LayoutDashboard,
+  LogOut,
+} from "lucide-react";
 
 const DonationNavbar = () => {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState("/");
+  const pathname = usePathname(); // ✅ GET CURRENT PATH
 
   const handleNavigation = (path) => {
-    setActiveTab(path);
     router.push(path);
   };
 
   const handleLogout = async () => {
-    await signOut({ redirect: false }); // Don't auto redirect
-    router.push("/auth/login"); // Manually navigate to login
+    await signOut({ redirect: false });
+    router.push("/auth/login");
   };
 
   return (
@@ -38,35 +43,35 @@ const DonationNavbar = () => {
               icon={<Users size={18} />} 
               label="Receivers" 
               path="/receivers"
-              activeTab={activeTab}
+              pathname={pathname} // ✅ PASS pathname
               onClick={() => handleNavigation("/receivers")} 
             />
             <NavButton 
               icon={<Package size={18} />} 
               label="Products" 
               path="/products"
-              activeTab={activeTab}
+              pathname={pathname}
               onClick={() => handleNavigation("/products")} 
             />
             <NavButton 
               icon={<ClipboardList size={18} />} 
               label="Requests" 
               path="/requests"
-              activeTab={activeTab}
+              pathname={pathname}
               onClick={() => handleNavigation("/requests")} 
             />
             <NavButton 
               icon={<ClipboardList size={18} />} 
               label="Unlisted" 
               path="/unlisted-requests"
-              activeTab={activeTab}
+              pathname={pathname}
               onClick={() => handleNavigation("/unlisted-requests")} 
             />
             <NavButton 
               icon={<LayoutDashboard size={18} />} 
               label="Dashboard" 
               path="/dashboard"
-              activeTab={activeTab}
+              pathname={pathname}
               onClick={() => handleNavigation("/dashboard")} 
             />
           </div>
@@ -85,17 +90,18 @@ const DonationNavbar = () => {
   );
 };
 
-// Navigation button component
-const NavButton = ({ icon, label, onClick, path, activeTab }) => {
-  const isActive = path === activeTab;
-  
+// ✅ MODIFIED: NavButton uses pathname instead of activeTab
+const NavButton = ({ icon, label, onClick, path, pathname }) => {
+  const isActive = pathname === path && pathname !== "/";
+
   return (
     <button
       onClick={onClick}
       className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 font-medium cursor-pointer
-        ${isActive 
-          ? "bg-teal-700 text-white" 
-          : "text-gray-300 hover:text-teal-300 hover:bg-gray-700 active:bg-teal-800 active:text-white"
+        ${
+          isActive
+            ? "bg-teal-700 text-white"
+            : "text-gray-300 hover:text-teal-300 hover:bg-gray-700 active:bg-teal-800 active:text-white"
         }`}
     >
       {icon}

@@ -10,6 +10,7 @@ export async function GET() {
                 image: true,
             },
             distinct: ["category"],
+            
         });
 
         // Extract one image per category
