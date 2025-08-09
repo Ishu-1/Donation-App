@@ -1,4 +1,8 @@
-# Donor Portal – Overview
+# DoNation
+The **Community Donation Platform** is a full-stack web application designed to connect **donors** with **NGOs and individuals in need**. It enables donors to contribute usable items such as clothes, shoes, and electronics, while allowing recipients to request and receive these items through an intuitive, category-based interface. The platform features **two dedicated portals** — one for donors to list and manage their contributions, and another for NGOs/recipients to browse available products, make requests, and track received donations. Built with **React, Node.js, Express, PostgreSQL, and Tailwind CSS**, it offers a secure, responsive, and scalable solution for promoting community-driven support and reducing waste.
+
+
+## Donor Portal – Overview
 
 The **Donor Portal** is the interface for individuals who wish to contribute usable items (clothes, shoes, electronics, etc.) to NGOs and recipients.  
 It allows donors to **list items for donation**, manage their active and past donations, and respond to specific donation requests from NGOs or recipients.  
@@ -7,23 +11,23 @@ The donor experience is designed to be **clean, responsive, and intuitive**, mak
 
 ---
 
-## Key Features
+### Key Features
 
-### 1. Authentication & Onboarding
+#### 1. Authentication & Onboarding
 ![Login Sign up page](images/Donor/Sign_up%20Login.jpeg)  
 - Secure sign-up and login for donors using **JWT authentication**.  
 - Responsive form design for desktop and mobile.
 
 ---
 
-### 2. Home Dashboard
+#### 2. Home Dashboard
 ![Home Page](images/Donor/Home.jpeg)  
 - Welcoming home page highlighting available donation categories.  
 - Quick navigation to donation management, unlisted requests, and product listing.
 
 ---
 
-### 3. Product Listing & Management
+#### 3. Product Listing & Management
 ![Products Page](images/Donor/Products.jpeg)  
 - **Products Page:** View all listed donation items.
 
@@ -33,7 +37,7 @@ The donor experience is designed to be **clean, responsive, and intuitive**, mak
 
 ---
 
-### 4. Donation Request Handling
+#### 4. Donation Request Handling
 ![Unlisted Requests](images/Donor/Unlisted%20Requests%20made.jpeg) 
 - Track custom/unlisted donation requests made by NGOs or recipients.
 
@@ -48,24 +52,84 @@ The donor experience is designed to be **clean, responsive, and intuitive**, mak
 
 ---
 
-### 5. Impact Tracking
+#### 5. Impact Tracking
 ![Dashboard Page](images/Donor/Dashboard.jpeg)  
 - Donor dashboard displaying:  
   - Total donations made.
   - NGO collaborations.
-  - Recent activity log.
+  - Activity log of donations.
 
 ---
 
-## Tech Stack (Donor Side)
+## Beneficiary Portal – Overview
+
+The **Beneficiary Portal** is the interface for NGOs and individuals seeking essential items from donors.  
+It enables beneficiaries to **browse available products**, request donations (both listed and custom), and track the status of their requests in real-time.
+
+The beneficiary experience is designed to be **clear, responsive, and efficient**, making it easy to find, request, and receive much-needed supplies.
+
+---
+
+### Key Features
+
+#### 1. Home & Navigation
+![Home Page](images/Beneficiaries/Home.jpeg)  
+- Welcoming home page introducing the platform’s mission.  
+- Quick access to product categories, pending requests, and dashboard.
+
+---
+
+#### 2. Browsing Categories & Products
+![Categories of Products](images/Beneficiaries/Categories%20of%20Products.jpeg)
+- **Categories Page:** Displays all available product categories for browsing.
+
+![Category Specific Products Available](images/Beneficiaries/Category%20specific%20Products%20available.jpeg)
+- **Category Products Page:** Lists all donated items within a selected category, with an option to request specific products.
+
+---
+
+#### 3. Requesting Donations
+![Product Specific Request Donation Popup](images/Beneficiaries/Product%20specific%20Request%20Donation%20popup.jpeg)  
+- **Product Request Popup:** Simple form to request a listed item by specifying quantity.
+
+![Request Custom Product Donation](images/Beneficiaries/Request%20Custom%20Product%20Donation.jpeg)  
+- **Custom Request Popup:** Allows beneficiaries to request unlisted items by providing name, condition, quantity, and category.
+
+---
+
+#### 4. Tracking Requests
+![Pending Listed Requests](images/Beneficiaries/Pending%20Listed%20Requests.jpeg)  
+![Pending Unlisted Products](images/Beneficiaries/Pending%20Unlisted%20Products.jpeg)  
+- View and track the status of both listed and custom product requests.
+- Updates fetched in real-time from the backend.
+
+---
+
+#### 5. Connecting with Donors
+![Donors List](images/Beneficiaries/Donors%20List.jpeg)  
+- Displays a list of registered donors for potential direct communication or follow-up.
+
+---
+
+#### 6. Impact & Insights
+![Dashboard](images/Beneficiaries/Dashboard.jpeg)  
+- Dashboard displaying:  
+  - Total donations received.  
+  - Most helpful donor.  
+  - Donation fulfilled activity.  
+- Visual representation of received support.
+
+---
+
+## Tech Stack
 - **Frontend:** React (JSX), Tailwind CSS (for responsive layouts)  
 - **Backend:** Node.js, Express.js  
 - **Database:** PostgreSQL  
 - **API Communication:** REST API  
 - **Authentication:** JWT  
-- **Notifications:** Email alerts and in-app notifications for donation status updates
+- **Notifications:** Email alerts and in-app notifications for donation and request status updates
 
 ---
 
 ## Responsive Design
-All pages and components adapt to mobile, tablet, and desktop using **Tailwind’s responsive classes**, ensuring accessibility for all donors.
+All pages and components are fully responsive using **Tailwind’s responsive classes**, ensuring a smooth experience for beneficiaries across mobile, tablet, and desktop devices.
