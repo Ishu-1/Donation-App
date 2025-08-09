@@ -1,84 +1,71 @@
-# Turborepo starter
+# Donor Portal – Overview
 
-This Turborepo starter is maintained by the Turborepo core team.
+The **Donor Portal** is the interface for individuals who wish to contribute usable items (clothes, shoes, electronics, etc.) to NGOs and recipients.  
+It allows donors to **list items for donation**, manage their active and past donations, and respond to specific donation requests from NGOs or recipients.  
 
-## Using this example
+The donor experience is designed to be **clean, responsive, and intuitive**, making it easy to browse, list, and track donations.
 
-Run the following command:
+---
 
-```sh
-npx create-turbo@latest
-```
+## Key Features
 
-## What's inside?
+### 1. Authentication & Onboarding
+![Login Sign up page](images/Donor/Sign_up%20Login.jpeg)  
+- Secure sign-up and login for donors using **JWT authentication**.  
+- Responsive form design for desktop and mobile.
 
-This Turborepo includes the following packages/apps:
+---
 
-### Apps and Packages
+### 2. Home Dashboard
+![Home Page](images/Donor/Home.jpeg)  
+- Welcoming home page highlighting available donation categories.  
+- Quick navigation to donation management, unlisted requests, and product listing.
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+---
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+### 3. Product Listing & Management
+![Products Page](images/Donor/Products.jpeg)  
+- **Products Page:** View all listed donation items.
 
-### Utilities
+![Add Product Popup](images/Donor/Products%20-%20Add%20Product%20popup.jpeg)  
+- **Add Product Popup:** A form to create a new donation listing, including category, description, and item images.
+- Uses **REST API** to send product data to the backend for storage.
 
-This Turborepo has some additional tools already setup for you:
+---
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+### 4. Donation Request Handling
+![Unlisted Requests](images/Donor/Unlisted%20Requests%20made.jpeg) 
+- Track custom/unlisted donation requests made by NGOs or recipients.
 
-### Build
+![Request Accepted Notification](images/Donor/DonorRequestAccepted%20Notification.jpeg)
+- Get notified when an NGO accepts your donation request.
 
-To build all apps and packages, run the following command:
+![Donation Accepted Email](images/Donor/Donation%20Accepted%20Email%20message.jpeg)
+- Email notification confirming request acceptance.<br><br>
+- Manage both **listed donation offers** and **unlisted custom requests** in one place.  
+- Real-time updates fetched via API calls.  
+- Email notification and in-app alerts when an NGO accepts a donation.
 
-```
-cd my-turborepo
-pnpm build
-```
+---
 
-### Develop
+### 5. Impact Tracking
+![Dashboard Page](images/Donor/Dashboard.jpeg)  
+- Donor dashboard displaying:  
+  - Total donations made.
+  - NGO collaborations.
+  - Recent activity log.
 
-To develop all apps and packages, run the following command:
+---
 
-```
-cd my-turborepo
-pnpm dev
-```
+## Tech Stack (Donor Side)
+- **Frontend:** React (JSX), Tailwind CSS (for responsive layouts)  
+- **Backend:** Node.js, Express.js  
+- **Database:** PostgreSQL  
+- **API Communication:** REST API  
+- **Authentication:** JWT  
+- **Notifications:** Email alerts and in-app notifications for donation status updates
 
-### Remote Caching
+---
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+## Responsive Design
+All pages and components adapt to mobile, tablet, and desktop using **Tailwind’s responsive classes**, ensuring accessibility for all donors.
